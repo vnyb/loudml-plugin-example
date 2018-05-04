@@ -1,0 +1,7 @@
+{
+    "type": "example",
+    "name": "my-hook",
+    "config": {
+        "message": "anomaly detected!"
+    }
+}
