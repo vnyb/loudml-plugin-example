@@ -1,2 +1,3 @@
-# loudml-plugin-example
-Example of plug-in for LoudML. For it to create your own!
+# loudml-plugin-mail
+
+Plug-in for LoudML for sending e-mail notifications on anomaly detection.

@@ -1,0 +1,6 @@
+---
+smtp:
+  host: smtp.gmail.com
+  user: user
+  password: password
+  tls: true

@@ -16,20 +16,20 @@
 # Copyright Red Mint Network
 
 """
-Setup plug-in exemple for LoudML
+Setup mail plug-in for LoudML
 """
 
 from setuptools import setup
 
 setup(
-    name='loudml-plugin-example',
+    name='loudml-plugin-mail',
 
     version='1.3.0',
 
-    description="Example of plug-in for LoudML. Fork it to create your own!",
+    description="Make LoudML send e-mail notifications on anomaly detection",
 
     py_modules = [
-        'loudml_plugin_example',
+        'loudml_plugin_mail',
     ],
 
     install_requires=[
@@ -38,8 +38,11 @@ setup(
     ],
 
     entry_points={
+        'loudml.plugins': [
+            'mail=loudml_plugin_mail:MailPlugin',
+        ],
         'loudml.hooks': [
-            'example=loudml_plugin_example:ExampleHook',
+            'mail=loudml_plugin_mail:MailHook',
         ],
     },
 )
