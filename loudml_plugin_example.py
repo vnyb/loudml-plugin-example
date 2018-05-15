@@ -88,7 +88,7 @@ class ExampleHook(Hook):
     def on_anomaly(
         self,
         model,
-        timestamp,
+        dt,
         score,
         predicted,
         observed,
@@ -99,7 +99,7 @@ class ExampleHook(Hook):
         logging.warning(
             "%s: %s, model=%s, score=%.2f, predicted=%s, observed=%s",
             self.config['message'],
-            timestamp,
+            str(dt.astimezone()),
             model,
             score,
             json.dumps(predicted),
