@@ -38,7 +38,14 @@ setup(
     ],
 
     entry_points={
+        'loudml.plugins': [
+            # Register here your plug-in class.
+            # '<plugin_name>=<module>:<plugin_class>,
+            'example=loudml_plugin_example:ExamplePlugin',
+        ],
         'loudml.hooks': [
+            # Register here your hooks.
+            # '<hook_name>=<module>:<hook_class>'
             'example=loudml_plugin_example:ExampleHook',
         ],
     },

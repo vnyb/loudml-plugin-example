@@ -16,34 +16,91 @@
 import logging
 import json
 
-from loudml.api import Hook
+from loudml.api import (
+    Hook,
+    Plugin,
+)
 
 from voluptuous import (
     All,
     Any,
     Invalid,
+    Optional,
     Required,
     Schema,
 )
 
-CONFIG_SCHEMA = Schema({
-    Required('message'): str,
-})
+
+class ExamplePlugin(Plugin):
+    """
+    LoudML example plug-in
+    """
+
+    # Optional class to be defined if the plug-in requires an initialization
+    # on LoudML start up. If no initialization is needed, get rid of it.
+
+    CONFIG_SCHEMA = Schema({
+        Required('foo'): str,
+        Optional('bar'): int,
+    })
+
+    def __init__(self, name, config_dir, *args, **kwargs):
+        # Load and validate plug-in configuration from
+        # /etc/loudml/plugins.d/<plugin name>.yml
+        super().__init__(name, config_dir, *args, **kwargs)
+
+        # ... put here additional initialization actions ...
+
+    @classmethod
+    def validate(cls, config):
+        """
+        Validate and sanitize plug-in static configuration
+        """
+
+        # Validate configuration against the schema
+        config = super().validate(config)
+
+        # ... put here additional validation if needed ...
+
+        # Return sanitized configuration
+        return config
+
 
 class ExampleHook(Hook):
-    @staticmethod
-    def validate(config):
-        try:
-            CONFIG_SCHEMA(config)
-        except Invalid as exn:
-            raise ValueError(exn.error_message)
+    CONFIG_SCHEMA = Schema({
+        Required('message'): str,
+    })
 
-    def on_anomaly(self, model, timestamp, score, predicted, observed, **kwargs):
+    @classmethod
+    def validate(cls, config):
+        """
+        Validate and sanitize hook configuration
+        """
+
+        # Validate configuration against the schema
+        config = super().validate(config)
+
+        # ... put here additional validation if needed ...
+
+        # Return sanitized configuration
+        return config
+
+    def on_anomaly(
+        self,
+        model,
+        timestamp,
+        score,
+        predicted,
+        observed,
+        *args,
+        **kwargs
+    ):
         # Deal with anomaly notification here
         logging.warning(
-            "{}: {}, model={}, score={}, predicted={}, observed={}",
+            "%s: %s, model=%s, score=%.2f, predicted=%s, observed=%s",
             self.config['message'],
             timestamp,
+            model,
             score,
             json.dumps(predicted),
             json.dumps(observed),
