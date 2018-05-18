@@ -92,6 +92,7 @@ class ExampleHook(Hook):
         score,
         predicted,
         observed,
+        anomalies,
         *args,
         **kwargs
     ):
