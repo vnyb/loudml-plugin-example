@@ -85,7 +85,7 @@ class ExampleHook(Hook):
         # Return sanitized configuration
         return config
 
-    def on_anomaly(
+    def on_anomaly_start(
         self,
         model,
         dt,
@@ -104,4 +104,21 @@ class ExampleHook(Hook):
             score,
             json.dumps(predicted),
             json.dumps(observed),
+        )
+
+    def on_anomaly_end(
+        self,
+        model,
+        dt,
+        score,
+        *args,
+        **kwargs
+    ):
+        # Deal with anomaly notification here
+        logging.warning(
+            "anomaly end: %s, model=%s, score=%.2f",
+            self.config['message'],
+            str(dt.astimezone()),
+            model,
+            score,
         )
